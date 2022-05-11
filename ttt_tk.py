@@ -13,11 +13,12 @@ def main():
 
     def check_win(board_state):
         board = [board_state[i : i + 3] for i in range(0, 9, 3)]
-        for i in board:  # check horizontals
-            if i[0] == i[1] == i[2] and i[0] is not None:
-                return "winner"
-        for i in range(3):  # check verticals
-            if (board[0][i] == board[1][i] == board[2][i]) and board[0][i] is not None:
+        for i in range(3):  # check horizontals and verticals
+            if (
+                (board[0][i] == board[1][i] == board[2][i]) and board[0][i] is not None
+            ) or (
+                (board[i][0] == board[i][1] == board[i][2]) and board[i][0] is not None
+            ):
                 return "winner"
         if (
             (board[0][0] == board[1][1] == board[2][2])
@@ -28,6 +29,7 @@ def main():
             return "winner"
         if None not in board_state:
             return "tie"
+        return None
 
     def button_handler(x, y):
         nonlocal turn
