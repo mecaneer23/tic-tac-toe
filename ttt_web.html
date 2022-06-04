@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        var turn = 0;
+
+        function check_win(board) {
+            for (var i = 0; i < 3; i++) {
+                if (
+                    (
+                        (
+                            (board[i] == board[i + 1]) && (board[i] == board[i + 2]) ||
+                            (board[i] == board[i + 3]) && (board[i] == board[i + 6])
+                        ) && board[i] != ""
+                    ) || (
+                        (
+                            (board[0] == board[4]) && (board[0] == board[8]) ||
+                            (board[2] == board[4]) && (board[2] == board[6])
+                        ) && board[4] != ""
+                    )
+                ) {
+                    return "winner";
+                }
+            }
+            if (!board.includes("")) {
+                return "tie";
+            }
+            return null;
+        }
+
+        function button_handler(button) {
+            if (button.innerHTML == "") {
+                button.innerHTML = turn % 2 == 0 ? "X" : "O";
+                turn++;
+                document.getElementById("turn_display").innerHTML = turn % 2 == 0 ? "X's turn" : "O's turn";
+            }
+            var board_items = document.getElementById("grid-container").children;
+            const board = [];
+            for (var i = 0; i < board_items.length - 1; i++) {
+                board[i] = board_items[i].innerHTML
+            }
+            winner = check_win(board);
+            if (winner == "winner") {
+                document.getElementById("turn_display").innerHTML = "";
+                alert(turn % 2 == 0 ? "O wins!" : "X wins!");
+                reset();
+            } else if (winner == "tie") {
+                document.getElementById("turn_display").innerHTML = "";
+                alert("Tie!");
+                reset();
+            }
+            return;
+        }
+
+        function reset() {
+            document.getElementById("turn_display").innerHTML = "X's turn";
+            var board_items = document.getElementById("grid-container").children;
+            for (var i = 0; i < 9; i++) {
+                board_items[i].innerHTML = "";
+            }
+            turn = 0;
+            return;
+        }
+    </script>
+    <div id="turn_display" style="
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 100px;
+    ">X's turn</div>
+    <div id="grid-container" style="
+    display: grid;
+    grid-template-columns: auto auto auto;
+    height: 420px;
+    width: 420px;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    ">
+        <button type="button" class="grid-item" onclick="button_handler(this)"></button>
+        <button type="button" class="grid-item" onclick="button_handler(this)"></button>
+        <button type="button" class="grid-item" onclick="button_handler(this)"></button>
+        <button type="button" class="grid-item" onclick="button_handler(this)"></button>
+        <button type="button" class="grid-item" onclick="button_handler(this)"></button>
+        <button type="button" class="grid-item" onclick="button_handler(this)"></button>
+        <button type="button" class="grid-item" onclick="button_handler(this)"></button>
+        <button type="button" class="grid-item" onclick="button_handler(this)"></button>
+        <button type="button" class="grid-item" onclick="button_handler(this)"></button>
+        <style media="screen">
+            .grid-item {
+                font-size: 130px;
+                text-align: center;
+                border: 1px solid black;
+                height: 140px;
+                width: 140px;
+            }
+        </style>
+    </div>
+</body>
+
+</html>
