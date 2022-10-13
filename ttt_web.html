@@ -46,27 +46,30 @@
             return null;
         }
 
-        function button_handler(button) {
-            if (button.innerHTML == " ") {
-                turn++;
-                button.innerHTML = turn % 2 == 0 ? "O" : "X";
-                document.getElementById("turn-display").innerHTML = turn % 2 == 0 ? "X's turn" : "O's turn";
+        async function button_handler(button) {
+            if (button.innerHTML != " ") {
+                return;
             }
-            var board_items = document.getElementById("grid-container").children;
-            const board = [];
-            for (var i = 0; i < board_items.length; i++) {
-                board[i] = board_items[i].innerHTML
-            }
-            winner = check_win(board);
-            if (winner == "winner") {
-                document.getElementById("turn-display").innerHTML = " ";
-                alert(turn % 2 == 0 ? "O wins!" : "X wins!");
-                reset();
-            } else if (winner == "tie") {
-                document.getElementById("turn-display").innerHTML = " ";
-                alert("Tie!");
-                reset();
-            }
+            turn++;
+            button.innerHTML = turn % 2 == 0 ? "O" : "X";
+            window.setTimeout(function() {
+            document.getElementById("turn-display").innerHTML = turn % 2 == 0 ? "X's turn" : "O's turn";
+                var board_items = document.getElementById("grid-container").children;
+                const board = [];
+                for (var i = 0; i < board_items.length; i++) {
+                    board[i] = board_items[i].innerHTML
+                }
+                winner = check_win(board);
+                if (winner == "winner") {
+                    document.getElementById("turn-display").innerHTML = " ";
+                    alert(turn % 2 == 0 ? "O wins!" : "X wins!");
+                    reset();
+                } else if (winner == "tie") {
+                    document.getElementById("turn-display").innerHTML = " ";
+                    alert("Tie!");
+                    reset();
+                }
+            }, 0);
             return;
         }
 
