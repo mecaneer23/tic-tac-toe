@@ -8,7 +8,7 @@
     <title>Tic Tac Toe</title>
 </head>
 
-<body>
+<body onresize="resize()">
     <div id="turn-display">X's turn</div>
     <div id="grid-container">
         <button type="button" class="grid-item" onclick="button_handler(this)"> </button>
@@ -86,15 +86,16 @@
     <style>
         #turn-display {
             position: absolute;
-            top: 7%;
             left: 50%;
-            transform: translate(-50%, -7%);
-            font-size: 625%;
+            transform: translateX(-50%);
+            font-size: 20vmin;
+            white-space: nowrap;
         }
 
         #grid-container {
             display: grid;
-            grid-template-columns: auto auto auto;
+            /*grid-template-columns: repeat(3, minmax(0, 1fr));*/
+            grid-template-columns: repeat(3, auto);
             margin: 0;
             position: absolute;
             top: 60%;
@@ -103,14 +104,19 @@
         }
 
         .grid-item {
-            font-size: 650%;
+            font-size: 20vmin;
             text-align: center;
-            height: 1.9em;
-            width: 1.9em;
+            height: 25vmin;
+            color: black;
         }
     </style>
     <script type="text/javascript">
-        document.getElementById("grid-container").style.width = getComputedStyle(document.getElementById("grid-container")).height;
+        function resize() {
+            document.querySelectorAll(".grid-item").forEach((item) => {
+                item.style.width = window.getComputedStyle(document.querySelector(".grid-item")).height;;
+            });
+        }
+        resize();
     </script>
 </body>
 
