@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tic Tac Toe for Python tkinter"""
+"""Tic Tac Toe for Python tkinter."""
 
 from enum import Enum
 from functools import partial
@@ -24,24 +24,24 @@ class PlayAgain(Enum):
 
 
 def recursive_map(
-    func: Callable[[S], T], seq: Iterable[Iterable[S] | S]
+    func: Callable[[S], T],
+    seq: Iterable[Iterable[S] | S],
 ) -> Iterator[Iterable[T] | T | list[T]]:
-    """Map a function to a potentially multidimensional sequence"""
-
+    """Map a function to a potentially multidimensional sequence."""
     for item in seq:
         if isinstance(item, Iterable):
             yield type(cast(Iterable[T], item))(
-                recursive_map(func, cast(Iterable[S], item))
+                recursive_map(func, cast(Iterable[S], item)),
             )
             continue
         yield func(item)
 
 
 class TicTacToe:
-    """Helper methods for tic tac toe calculations"""
+    """Helper methods for tic tac toe calculations."""
 
     def __init__(self, tk_window: Tk) -> None:
-        self.turn = True
+        self.turn: bool = True
         self.root = tk_window
         self.buttons = [
             [StringVar(self.root, value="") for _ in range(3)] for _ in range(3)
@@ -49,7 +49,7 @@ class TicTacToe:
         self.turn_display = StringVar(self.root, value="X's turn")
 
     def check_linears(self, board: list[list[str]]) -> bool:
-        """Return true if the board contains 3 in a row or column"""
+        """Return true if the board contains 3 in a row or column."""
         for i in range(3):
             if ((board[0][i] == board[1][i] == board[2][i]) and board[0][i] != "") or (
                 (board[i][0] == board[i][1] == board[i][2]) and board[i][0] != ""
@@ -58,22 +58,23 @@ class TicTacToe:
         return False
 
     def check_diagonals(self, board: list[list[str]]) -> bool:
-        """Return true if the diagonals of board have 3 in a row"""
+        """Return true if the diagonals of board have 3 in a row."""
         return (
             (board[0][0] == board[1][1] == board[2][2])
             or (board[0][2] == board[1][1] == board[2][0])
         ) and board[1][1] != ""
 
     def has_winner(self, board: list[list[str]]) -> bool:
-        """Check if there is a winner for a given board"""
+        """Check if there is a winner for a given board."""
         return self.check_diagonals(board) or self.check_linears(board)
 
     @staticmethod
     def get_button(button: StringVar) -> str:
-        """Turn a button into a string"""
+        """Turn a button into a string."""
         return button.get()
 
     def get_turn(self) -> str:
+        """Return the character representing turn."""
         return "X" if self.turn else "O"
 
     def button_handler(self, row: int, col: int) -> None:
@@ -82,14 +83,13 @@ class TicTacToe:
 
         If possible to add a symbol, add it. Then check for a winner.
         """
-
         win_message = f"{self.get_turn()} wins!"
         if self.buttons[row][col].get() == "":
             self.buttons[row][col].set(self.get_turn())
             self.turn = not self.turn
             self.turn_display.set(f"{self.get_turn()}'s turn")
         winner = self.has_winner(
-            list(map(list, recursive_map(self.get_button, self.buttons)))
+            list(map(list, recursive_map(self.get_button, self.buttons))),
         )
         if not winner:
             return
@@ -105,10 +105,8 @@ class TicTacToe:
             self.root.destroy()
 
 
-def main():
-    """
-    Entry point for tic tac toe games
-    """
+def main() -> None:
+    """Entry point for tic tac toe games."""
     root = Tk()
     root.title("Tic-Tac-Toe")
     game = TicTacToe(root)
