@@ -95,7 +95,7 @@ class TicTacToe:
             return
         if "" not in list(map(self.get_button, chain.from_iterable(self.buttons))):
             win_message = "Tie!"
-        if messagebox.askyesno(
+        if messagebox.askyesno(  # pyright: ignore
             title="Tic-Tac-Toe",
             message=f"{win_message}\nDo you want to play again?",
         ):
@@ -111,13 +111,13 @@ def main() -> None:
     root.title("Tic-Tac-Toe")
     game = TicTacToe(root)
 
-    ttk.Style().configure("TLabel", font=("Helvetica", 32))
+    ttk.Style().configure("TLabel", font=("Helvetica", 32))  # pyright: ignore
     ttk.Label(root, textvariable=game.turn_display).grid(
         row=0,
         column=1,
     )
 
-    ttk.Style().configure("TButton", font=("Helvetica", 64), width=3)
+    ttk.Style().configure("TButton", font=("Helvetica", 64), width=3)  # pyright: ignore
     for i in range(3):
         for j in range(3):
             ttk.Button(
